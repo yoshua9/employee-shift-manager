@@ -1,0 +1,11 @@
+{
+  "name": "employee-shift-manager-browser-tests",
+  "private": true,
+  "description": "Pruebas end-to-end de los flujos AJAX con Playwright (usa el Chrome del sistema).",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

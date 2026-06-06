@@ -1,0 +1,5 @@
+.git
+.idea
+docs/superpowers
+tests/browser/node_modules
+**/.DS_Store

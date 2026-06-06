@@ -1,0 +1,25 @@
+/* Estado colors — consistent badges across planning and shifts lists */
+.badge.estado-programado { background-color: #6c757d; color: #fff; }
+.badge.estado-confirmado { background-color: #198754; color: #fff; }
+.badge.estado-ausente    { background-color: #dc3545; color: #fff; }
+.badge.estado-cubierto   { background-color: #0d6efd; color: #fff; }
+
+/* Celdas de planificación: misma altura tengan o no turnos (min-height efectivo en table-cell vía height) */
+.planning-cell { height: 64px; vertical-align: top; font-size: .8rem; }
+
+/* Subtle left accent on shift rows by estado (keeps the tr.estado-* hook) */
+tr.estado-programado > td:first-child { border-left: 4px solid #6c757d; }
+tr.estado-confirmado > td:first-child { border-left: 4px solid #198754; }
+tr.estado-ausente    > td:first-child { border-left: 4px solid #dc3545; }
+tr.estado-cubierto   > td:first-child { border-left: 4px solid #0d6efd; }
+
+/* Active nav link */
+.navbar-dark .nav-link.active { font-weight: 600; color: #fff; border-bottom: 2px solid #fff; }
+
+/* Smoother table hover */
+.table-hover tbody tr { transition: background-color .12s ease-in-out; }
+
+/* Demo credentials box: keep each line (and the email) on a single row */
+.demo-creds { font-size: .8rem; }
+.demo-creds > div { white-space: nowrap; }
+.demo-creds code { white-space: nowrap; }

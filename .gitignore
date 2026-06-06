@@ -1,0 +1,26 @@
+# Configuración con credenciales reales (se versiona config.example.php)
+includes/config.php
+
+
+# Dependencias / vendor descargado
+public/assets/vendor/
+
+# Tests de navegador (Playwright)
+tests/browser/node_modules/
+tests/browser/test-results/
+tests/browser/playwright-report/
+tests/browser/.playwright/
+
+# IDE / editores
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs y temporales
+*.log
+/tmp/
