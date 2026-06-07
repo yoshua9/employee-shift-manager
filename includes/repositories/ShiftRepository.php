@@ -40,8 +40,11 @@ class ShiftRepository {
     }
 
     public static function hasOverlap(int $empId, string $fecha, string $hi, string $hf, ?int $exceptId = null): bool {
-        $sql = "SELECT 1 FROM turnos WHERE empleado_id = ? AND fecha = ? AND hora_inicio < ? AND hora_fin > ?";
-        $p = [$empId, $fecha, $hf, $hi];
+        $sql = "SELECT 1 FROM turnos
+                WHERE fecha = ?
+                  AND (empleado_id = ? OR (sustituto_id = ? AND estado = 'cubierto'))
+                  AND hora_inicio < ? AND hora_fin > ?";
+        $p = [$fecha, $empId, $empId, $hf, $hi];
         if ($exceptId !== null) { $sql .= " AND id != ?"; $p[] = $exceptId; }
         $sql .= " LIMIT 1";
         $s = db()->prepare($sql); $s->execute($p);

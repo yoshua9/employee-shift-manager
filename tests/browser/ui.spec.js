@@ -3,11 +3,21 @@ const { execSync } = require('child_process');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
+const DB_TEST = process.env.DB_TEST_NAME || 'employee_manager_test';
+
+const DB = (() => {
+  const out = execSync(
+    `php -r '$c=is_file("includes/config.php")?"includes/config.php":"includes/config.example.php"; require $c; echo DB_HOST,"\\n",DB_USER,"\\n",DB_PASS;'`,
+    { cwd: ROOT }
+  ).toString().split('\n');
+  return { host: out[0], user: out[1], pass: out[2] || '' };
+})();
 
 // Recreate the isolated test DB (schema + seed) before each test for independence.
 function resetDb() {
+  const pw = DB.pass ? `-p${DB.pass}` : '';
   for (const f of ['schema.sql', 'seed.sql']) {
-    execSync(`mysql -uroot -proot employee_manager_test < ${path.join(ROOT, 'sql', f)}`, { stdio: 'ignore' });
+    execSync(`mysql -h${DB.host} -u${DB.user} ${pw} ${DB_TEST} < ${path.join(ROOT, 'sql', f)}`, { stdio: 'ignore' });
   }
 }
 

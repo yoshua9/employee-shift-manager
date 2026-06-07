@@ -15,6 +15,11 @@ echo "adyacente exacto NO solapa -> 201"
 req POST /api/shifts '{"empleado_id":3,"fecha":"2027-06-08","hora_inicio":"13:00","hora_fin":"15:00","tipo":"tarde"}'
 assert_status 201
 
+echo "sustituto ocupado: crear titular que solapa con un turno que ya cubre -> 409"
+DCUB=$(seed_date 3)
+req POST /api/shifts "{\"empleado_id\":6,\"fecha\":\"$DCUB\",\"hora_inicio\":\"22:30\",\"hora_fin\":\"23:30\",\"tipo\":\"noche\"}"
+assert_status 409
+
 echo "hora_fin<=hora_inicio -> 422"
 req POST /api/shifts '{"empleado_id":3,"fecha":"2027-06-09","hora_inicio":"13:00","hora_fin":"09:00","tipo":"manana"}'
 assert_status 422

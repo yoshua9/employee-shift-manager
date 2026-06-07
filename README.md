@@ -65,15 +65,13 @@ mysql -uturnos_user -pturnos_pass employee_manager_test < sql/seed.sql
 cp includes/config.example.php includes/config.php
 ```
 
-`config.php` lee variables de entorno (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`) con valores
-por defecto. Ajusta los defaults o expórtalas para usar el usuario dedicado:
+`config.example.php` ya trae por defecto el usuario dedicado (`turnos_user` / `turnos_pass`);
+si usas otras credenciales, edítalas en `config.php` o expórtalas como variables de entorno
+(`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`). El `config.php` real está en `.gitignore`; lo
+versionado es `config.example.php`.
 
-```php
-define('DB_USER', getenv('DB_USER') ?: 'turnos_user');
-define('DB_PASS', getenv('DB_PASS') ?: 'turnos_pass');
-```
-
-El `config.php` real está en `.gitignore`; lo versionado es `config.example.php`.
+> **`config.php` es la única fuente de credenciales.** Tanto la app como los tests (curl y
+> Playwright) las leen de ahí, así que no hay que configurarlas en dos sitios.
 
 ### 3a. Arranque rápido — servidor embebido (evaluación)
 
@@ -145,10 +143,13 @@ la **base de pruebas aislada** (`employee_manager_test`), sin tocar la de desarr
 bash tests/run-all.sh
 ```
 
-Si tu base usa un usuario distinto al de los defaults, pásalo por entorno:
+Los tests toman las credenciales de `includes/config.php` (la misma fuente que la app), por lo
+que no se configuran aparte. Para apuntarlos a otra cuenta, cámbialas ahí o expórtalas
+(`DB_USER` / `DB_PASS`). La BD de pruebas se puede renombrar con `DB_TEST_NAME` (por defecto
+`employee_manager_test`):
 
 ```bash
-DB_USER=turnos_user DB_PASS=turnos_pass bash tests/run-all.sh
+DB_TEST_NAME=mi_bd_test bash tests/run-all.sh
 ```
 
 Qué cubre:
@@ -169,7 +170,7 @@ solapamiento en vivo, edición y reapertura de turnos, asignación de sustituto 
 excluido del desplegable) y escapado de XSS. Recrea `employee_manager_test` antes de cada test.
 
 ```bash
-cd tests/browser && npm install && npx playwright test
+cd tests/browser && npm install && npm test
 ```
 
 ## Decisiones de diseño

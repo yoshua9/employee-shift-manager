@@ -6,8 +6,6 @@ cd "$(dirname "$0")/.."
 
 PORT="${PORT:-8000}"
 DB_TEST_NAME="${DB_TEST_NAME:-employee_manager_test}"
-DB_USER="${DB_USER:-root}"
-DB_PASS="${DB_PASS:-root}"
 
 echo "== Unit (funciones puras) =="
 php tests/unit.php || { echo "UNIT FAILED"; exit 1; }
@@ -15,7 +13,7 @@ php tests/unit.php || { echo "UNIT FAILED"; exit 1; }
 echo
 echo "== Integración (curl, BD de test: $DB_TEST_NAME) =="
 lsof -ti tcp:"$PORT" | xargs kill -9 2>/dev/null
-DB_NAME="$DB_TEST_NAME" DB_USER="$DB_USER" DB_PASS="$DB_PASS" \
+DB_NAME="$DB_TEST_NAME" \
   php -S "localhost:$PORT" -t public public/router.php >/tmp/run-all-srv.log 2>&1 &
 SRV=$!
 for _ in $(seq 1 25); do curl -s -o /dev/null "http://localhost:$PORT/login" && break; sleep 0.2; done

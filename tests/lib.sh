@@ -3,9 +3,9 @@
 set -uo pipefail
 BASE="${BASE:-http://localhost:8000}"
 DB_TEST_NAME="${DB_TEST_NAME:-employee_manager_test}"
-DB_USER="${DB_USER:-root}"
-DB_PASS="${DB_PASS:-root}"
-DB_HOST="${DB_HOST:-localhost}"
+
+eval "$(php -r '$c = is_file("includes/config.php") ? "includes/config.php" : "includes/config.example.php"; require $c; printf("DB_HOST=%s\nDB_USER=%s\nDB_PASS=%s\n", escapeshellarg(DB_HOST), escapeshellarg(DB_USER), escapeshellarg(DB_PASS));')"
+
 JAR="/tmp/turnos_jar.txt"; CSRF=""; LAST=""; CODE=""
 
 reset_db() {

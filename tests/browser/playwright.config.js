@@ -21,6 +21,6 @@ module.exports = defineConfig({
     cwd: ROOT,
     url: 'http://localhost:8000/login',
     reuseExistingServer: false,
-    env: { DB_NAME: 'employee_manager_test', DB_USER: 'root', DB_PASS: 'root' },
+    env: { DB_NAME: process.env.DB_TEST_NAME || 'employee_manager_test' },
   },
 });
